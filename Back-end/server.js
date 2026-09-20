@@ -15,13 +15,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
-app.use(
-  cors({
-    origin:
-      'https://mountain-bikes-e-commerce-tcprqvqnr-fatitab-devs-projects.vercel.app/',
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(express.json());
 
 app.use((req, res, next) => {
