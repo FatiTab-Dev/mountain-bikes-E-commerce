@@ -13,6 +13,16 @@ import partbikes9 from '../assets/img/partbikes9.png';
 import partbikes10 from '../assets/img/partbikes10.png';
 import partbikes11 from '../assets/img/partbikes11.png';
 
+const API = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(
+  /\/+$/,
+  ''
+);
+
+const getImageUrl = (filename) => {
+  if (!filename) return 'https://via.placeholder.com/450';
+  return `${API}/img/${filename}`;
+};
+
 export const ProductDetails = ({ onAddToCart }) => {
   const { id } = useParams();
 
@@ -20,8 +30,6 @@ export const ProductDetails = ({ onAddToCart }) => {
   const [bike, setBike] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImg, setActiveImg] = useState('');
-
-  const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   const partImages = [
     partbikes1,
@@ -42,14 +50,14 @@ export const ProductDetails = ({ onAddToCart }) => {
       .then((res) => res.json())
       .then((data) => {
         setBike(data);
-        setActiveImg(data?.img || '');
+        setActiveImg(data?.img ? getImageUrl(data.img) : '');
         setLoading(false);
       })
       .catch(() => {
         setBike(null);
         setLoading(false);
       });
-  }, [id, API]);
+  }, [id]);
 
   if (loading) {
     return (
@@ -85,10 +93,14 @@ export const ProductDetails = ({ onAddToCart }) => {
 
           <div className="d-inline justify-content-center gap-2">
             <img
-              src={bike.img}
+              src={getImageUrl(bike.img)}
               alt={bike.title}
-              className={`rounded border ${activeImg === bike.img ? 'border-danger border-2' : ''}`}
-              onClick={() => setActiveImg(bike.img)}
+              className={`rounded border ${
+                activeImg === getImageUrl(bike.img)
+                  ? 'border-danger border-2'
+                  : ''
+              }`}
+              onClick={() => setActiveImg(getImageUrl(bike.img))}
               style={{
                 width: '100px',
                 height: '70px',
@@ -101,7 +113,9 @@ export const ProductDetails = ({ onAddToCart }) => {
                 key={index}
                 src={img}
                 alt={`part ${index + 1}`}
-                className={`rounded border ${activeImg === img ? 'border-danger border-2' : ''}`}
+                className={`rounded border ${
+                  activeImg === img ? 'border-danger border-2' : ''
+                }`}
                 onClick={() => setActiveImg(img)}
                 style={{
                   width: '100px',
