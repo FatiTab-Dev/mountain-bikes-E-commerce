@@ -2,6 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 //Routes
 import productRoutes from './routes/productRoutes.js';
@@ -10,6 +12,9 @@ import authRoutes from './routes/authRoutes.js';
 
 // Environment variables
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -41,7 +46,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 
 app.use('/api/auth', authRoutes);
-app.use('/img', express.static('public/img'));
+app.use('/img', express.static(path.join(__dirname, 'public/img')));
 
 app.get('/', (req, res) => {
   res.send('API is running...');
