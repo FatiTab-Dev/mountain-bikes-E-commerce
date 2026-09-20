@@ -17,10 +17,16 @@ const PORT = process.env.PORT || 5000;
 // Middlewares
 app.use(
   cors({
-    origin: [
-      'https://mountain-bikes-e-commerce-53lu-git-main-fatitab-devs-projects.vercel.app',
-      'https://mountain-bikes-e-commerce-53lu.vercel.app',
-    ],
+    origin: (origin, callback) => {
+      if (
+        !origin ||
+        /^https:\/\/mountain-bikes-e-commerce.*\.vercel\.app$/.test(origin)
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
   })
 );
 app.use(express.json());
