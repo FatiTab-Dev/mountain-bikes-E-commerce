@@ -1,13 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const API = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(
+  /\/+$/,
+  ''
+);
+
+const getImageUrl = (filename) => {
+  if (!filename) return 'https://placehold.co/300';
+  return `${API}/img/${filename}`;
+};
+
 export const Cardsshop = ({ onAddToCart }) => {
   const navigate = useNavigate();
 
   const [bikes, setBikes] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
     fetch(`${API}/api/products`)
@@ -26,7 +34,7 @@ export const Cardsshop = ({ onAddToCart }) => {
         console.error('Error fetching products:', err);
         setLoading(false);
       });
-  }, [API]);
+  }, []);
 
   if (loading) {
     return (
@@ -58,7 +66,7 @@ export const Cardsshop = ({ onAddToCart }) => {
             >
               <div className="card h-100 shadow-sm border-0 custom-bike-card">
                 <img
-                  src={bike.img || 'https://via.placeholder.com/300'}
+                  src={getImageUrl(bike.img)}
                   alt={bike.title}
                   className="card-img-top p-2 rounded-4"
                   loading="lazy"
