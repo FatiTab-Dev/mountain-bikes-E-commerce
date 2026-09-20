@@ -19,6 +19,7 @@ app.use(
   cors({
     origin: [
       'https://mountain-bikes-e-commerce-53lu-git-main-fatitab-devs-projects.vercel.app',
+      'https://mountain-bikes-e-commerce-53lu.vercel.app',
     ],
   })
 );
