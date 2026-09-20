@@ -2,6 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getImageUrl = (filename) => {
+  if (!filename) return 'https://placehold.co/150';
+  return `${API_URL}/img/${filename}`;
+};
+
 export const Cart = ({ cartItems }) => {
   const navigate = useNavigate();
   const [message, setMessage] = useState({ text: '', type: '' });
@@ -67,7 +74,7 @@ export const Cart = ({ cartItems }) => {
                       <tr key={itemId}>
                         <td>
                           <img
-                            src={item.img || 'https://via.placeholder.com/150'}
+                            src={getImageUrl(item.img)}
                             alt={item.title}
                             className="rounded-3"
                             style={{
