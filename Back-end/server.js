@@ -18,7 +18,8 @@ const PORT = process.env.PORT || 5000;
 app.use(
   cors({
     origin:
-      'mountain-bikes-e-commerce-53lu-1u47troer-fatitab-devs-projects.vercel.app',
+      'https://mountain-bikes-e-commerce-53lu-1u47troer-fatitab-devs-projects.vercel.app',
+    credentials: true,
   })
 );
 app.use(express.json());
